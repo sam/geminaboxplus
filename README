@@ -1,11 +1,13 @@
 GeminaboxPlus is a ready-to-go application for Geminabox
 (https://github.com/cwninja/geminabox) installs.
 
+
 ==== WHY? ====
 
 Reindexing tasks are handled by Resque offline so you don't
 have to wait around for your browser to timeout on hosts
 with a lot of gems.
+
 
 ==== REQUIREMENTS ====
 
@@ -32,6 +34,7 @@ to organize your Redis clusters and load-balance if necessary. ie:
 
 Once that's done just start up your server.
 
+
 ==== EXAMPLE WEBSERVER ====
 
 I use JRuby 1.7 (HEAD) on OpenJDK 7u2 running the following:
@@ -46,6 +49,7 @@ If you want to run my setup (it's fast, I recommend it!) then
 just start the server up with:
 
   jruby -S trinidad
+
 
 ==== 2-MINUTE SETUP ====
 
