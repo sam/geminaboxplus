@@ -23,7 +23,8 @@ install:
 The value can be a cluster of other Redis servers, allowing you
 to organize your Redis clusters and load-balance if necessary. ie:
 
-  redis-cli -h redis.example.com -n 0 hset services resque '["redis1.example.com:9200", "redis2.example.com:9201"]'
+  redis-cli -h redis.example.com -n 0 hset services \
+  resque '["redis1.example.com:9200", "redis2.example.com:9201"]'
 
 Once that's done just start up your server.
 
@@ -55,7 +56,7 @@ running on localhost:
   rake resque:work &
   GEMINABOX_DATA="$(pwd)/data" jruby -S trinidad
 
-Now just copy your .gem files into $GEMINABOX_DATA/gems and run
+Now just copy your .gem files into $GEMINABOX_DATA/gems and run:
 
   curl http://localhost:9292/reindex
 
