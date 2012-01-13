@@ -1,0 +1,67 @@
+GeminaboxPlus is a ready-to-go application for Geminabox
+(https://github.com/cwninja/geminabox) installs.
+
+Reindexing tasks are handled by Resque offline so you don't
+have to wait around for your browser to timeout on hosts
+with a lot of gems.
+
+The requirements are a running Redis installation with a
+special key in the default database, and two (optional)
+environment variables:
+
+REDIS_HOST: (defaults to localhost)
+GEMINABOX_DATA: (defaults to /var/www/data)
+
+Redis::Directory (https://github.com/wiecklabs/redis_directory)
+is used to organize your Redis connection.
+
+You'll need to add the following key to database 0 on your redis
+install:
+
+  redis-cli -h redis.example.com -n 0 hset services resque '["redis.example.com"]'
+
+The value can be a cluster of other Redis servers, allowing you
+to organize your Redis clusters and load-balance if necessary. ie:
+
+  redis-cli -h redis.example.com -n 0 hset services resque '["redis1.example.com:9200", "redis2.example.com:9201"]'
+
+Once that's done just start up your server.
+
+I use JRuby 1.7 (HEAD) on OpenJDK 7u2 running the following:
+
+  rack (1.3.6)
+  jruby-rack (1.1.1)
+  trinidad (1.2.3)
+
+I left them out of the Gemfile (and use system gems for these)
+so you can choose your own application-server (or run under MRI)
+If you want to run my setup (it's fast, I recommend it!) then
+just start the server up with:
+
+  jruby -S trinidad
+
+Assuming you have Homebrew (https://github.com/mxcl/homebrew) and
+a JRuby installation, here's how you'd quickly get GeminaboxPlus
+running on localhost:
+
+  brew install redis
+  redis-cli hset services resque '["localhost"]'
+  jgem install rack -v1.3.6
+  jgem install jruby-rack -v1.1.1
+  jgem install trinidad -v1.2.3
+  git clone git://github.com/sam/geminaboxplus.git
+  cd geminaboxplus
+  bundle install --path vendor
+  rake resque:work &
+  GEMINABOX_DATA="$(pwd)/data" jruby -S trinidad
+
+Now just copy your .gem files into $GEMINABOX_DATA/gems and run
+
+  curl http://localhost:9292/reindex
+
+To get all your gems loaded. The web side of the app itself isn't
+the fastest if you have a lot of gems (ours takes 8s to load) but
+that only matters if you're hunting on the server. The gem indexes
+should be fast once generated so there'll be no slowing down your
+workflow.
+Then start
