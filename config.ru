@@ -7,7 +7,7 @@ class Geminabox
   def reindex(force_rebuild = false)
     Geminabox.fixup_bundler_rubygems!
     force_rebuild = true unless settings.incremental_updates
-    Resque.enqueue(Reindexer, indexer, force_rebuild)
+    Resque.enqueue(Reindexer, settings.data, force_rebuild)
   end
 end
 
