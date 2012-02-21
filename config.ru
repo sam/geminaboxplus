@@ -3,9 +3,10 @@ require "boot"
 class Geminabox
 
   private
+
   def reindex
     Geminabox.fixup_bundler_rubygems!
-    Resque.enqueue(Reindexer, settings.data)
+    Resque.enqueue(Reindexer, settings)
   end
 end
 
