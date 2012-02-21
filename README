@@ -65,7 +65,7 @@ running on localhost:
   git clone git://github.com/sam/geminaboxplus.git
   cd geminaboxplus
   bundle install --path vendor
-  rake resque:work &
+  QUEUE=reindex bundle exec rake resque:work &
   GEMINABOX_DATA="$(pwd)/data" jruby -S trinidad
 
 Now just copy your .gem files into $GEMINABOX_DATA/gems and run:
