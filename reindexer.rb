@@ -1,7 +1,7 @@
 class Reindexer
   @queue = :reindex
 
-  def self.perform(settings)
+  def self.perform(settings, force_rebuild=false)
     Geminabox.fixup_bundler_rubygems!
     indexer = Gem::Indexer.new(settings.data)
 
@@ -14,7 +14,7 @@ class Reindexer
       rescue => e
         puts "#{e.class}:#{e.message}"
         puts e.backtrace.join("\n")
-        reindex(:force_rebuild)
+        perform(settings, :force_rebuild)
       end
     end
   end

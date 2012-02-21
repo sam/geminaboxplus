@@ -4,9 +4,9 @@ class Geminabox
 
   private
 
-  def reindex
+  def reindex(force_rebuild = false)
     Geminabox.fixup_bundler_rubygems!
-    Resque.enqueue(Reindexer, settings)
+    Resque.enqueue(Reindexer, settings, force_rebuild)
   end
 end
 
