@@ -2,6 +2,7 @@ class Reindexer
   @queue = :reindex
 
   def self.perform(data, force_rebuild)
+    Gem.post_reset{ Gem::Specification.all = nil }
     indexer = Gem::Indexer.new(data)
     if force_rebuild
       indexer.generate_index
